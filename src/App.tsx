@@ -186,7 +186,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm pointer-events-auto"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -212,13 +212,13 @@ export default function App() {
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={handleAcceptFullscreen}
-                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-500 to-blue-600 text-white font-medium hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(56,189,248,0.3)]"
+                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-500 to-blue-600 text-white font-medium hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(56,189,248,0.3)] cursor-pointer"
                   >
                     Sí, pantalla completa
                   </button>
                   <button
                     onClick={handleDeclineFullscreen}
-                    className="w-full py-3.5 px-6 rounded-xl bg-white/5 text-slate-300 font-medium hover:bg-white/10 transition-colors"
+                    className="w-full py-3.5 px-6 rounded-xl bg-white/5 text-slate-300 font-medium hover:bg-white/10 transition-colors cursor-pointer"
                   >
                     No, gracias
                   </button>
