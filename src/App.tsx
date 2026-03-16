@@ -23,6 +23,7 @@ import {
   Monitor,
   HardDrive
 } from 'lucide-react';
+import fotoJordan from './assets/fotojordan.png';
 
 const services = [
   {
@@ -341,7 +342,7 @@ function initSystem() {
                     
                     {/* The Image */}
                     <img 
-                      src={`${import.meta.env.BASE_URL}fotojordan.png`}
+                      src={fotoJordan}
                       alt="Jordan Chacón Villacis"
                       className="w-full h-full object-cover object-center relative z-0 contrast-125 saturate-110 brightness-105 transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
