@@ -71,7 +71,7 @@ const technologies = [
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-brand-500/30 font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-brand-500/30 font-sans relative overflow-x-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.15] pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-20 pointer-events-none">
@@ -79,13 +79,13 @@ export default function App() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 border-b border-white/5 bg-black/20 backdrop-blur-md">
+      <nav className="fixed top-0 left-0 right-0 w-full z-50 border-b border-white/5 bg-[#020617]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="font-display font-bold text-xl tracking-tight flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-blue-600 flex items-center justify-center text-white">
               JC
             </div>
-            <span>Jordan Chacón</span>
+            <span>Jordan Chacón Villacís</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
             <a href="#servicios" className="hover:text-white transition-colors">Servicios</a>
