@@ -341,7 +341,7 @@ function initSystem() {
                     
                     {/* The Image */}
                     <img 
-                      src="/fotojordan.png"
+                      src="public/fotojordan.png"
                       alt="Jordan Chacón Villacis"
                       className="w-full h-full object-cover object-center relative z-0 contrast-125 saturate-110 brightness-105 transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
