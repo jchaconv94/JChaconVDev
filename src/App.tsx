@@ -97,33 +97,43 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const autoFullscreenAttempted = React.useRef(false);
+  const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false);
 
   React.useEffect(() => {
-    const attemptFullscreen = () => {
-      if (!autoFullscreenAttempted.current && !document.fullscreenElement) {
-        autoFullscreenAttempted.current = true;
-        document.documentElement.requestFullscreen().catch(err => {
-          console.log(`Auto-fullscreen failed: ${err.message}`);
-        });
-      }
-    };
-
     const handleScroll = () => {
       setShowButton(window.scrollY > 100);
-      if (window.scrollY > 50) {
-        attemptFullscreen();
-      }
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('touchstart', attemptFullscreen, { passive: true });
     
+    // Show prompt after a short delay on initial load
+    const timer = setTimeout(() => {
+      if (!document.fullscreenElement && window.innerWidth < 1024) {
+        // Optional: only show on smaller screens, or remove condition for all screens
+        setShowFullscreenPrompt(true);
+      } else if (!document.fullscreenElement) {
+        setShowFullscreenPrompt(true);
+      }
+    }, 1500);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('touchstart', attemptFullscreen);
+      clearTimeout(timer);
     };
   }, []);
+
+  const handleAcceptFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+    }
+    setShowFullscreenPrompt(false);
+  };
+
+  const handleDeclineFullscreen = () => {
+    setShowFullscreenPrompt(false);
+  };
 
   React.useEffect(() => {
     const handleFullscreenChange = () => {
@@ -147,6 +157,56 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-brand-500/30 font-sans relative overflow-x-hidden">
+      {/* Fullscreen Prompt Modal */}
+      <AnimatePresence>
+        {showFullscreenPrompt && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative w-full max-w-md bg-[#0f172a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden"
+            >
+              {/* Glow effect */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-brand-500/20 blur-[50px] pointer-events-none" />
+              
+              <div className="relative p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-brand-400/20 to-blue-600/20 border border-brand-500/30 flex items-center justify-center text-brand-400 shadow-[0_0_15px_rgba(56,189,248,0.2)]">
+                  <Maximize className="w-8 h-8" />
+                </div>
+                
+                <h3 className="text-2xl font-display font-bold text-white mb-3">
+                  Experiencia Inmersiva
+                </h3>
+                <p className="text-slate-400 mb-8 leading-relaxed">
+                  Para disfrutar de la mejor experiencia visual, te recomendamos ver este portafolio en pantalla completa.
+                </p>
+                
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={handleAcceptFullscreen}
+                    className="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-brand-500 to-blue-600 text-white font-medium hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(56,189,248,0.3)]"
+                  >
+                    Sí, pantalla completa
+                  </button>
+                  <button
+                    onClick={handleDeclineFullscreen}
+                    className="w-full py-3.5 px-6 rounded-xl bg-white/5 text-slate-300 font-medium hover:bg-white/10 transition-colors"
+                  >
+                    No, gracias
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Effects */}
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.15] pointer-events-none" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] opacity-20 pointer-events-none">
