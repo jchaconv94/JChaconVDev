@@ -1,0 +1,44 @@
+rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: stats
+// Document ID: global
+// Fields:
+//   - visitCount: number (required) - Total number of visits
+//
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isValidStats(data) {
+      return data.keys().hasOnly(['visitCount']) &&
+             data.visitCount is number;
+    }
+
+    match /stats/global {
+      // Allow anyone to read the visit count
+      allow read: if true;
+      
+      // Allow anyone to increment the visit count
+      // In a real app, we'd use a cloud function or more complex rules to prevent abuse,
+      // but for a simple visit counter, we'll allow updates if it's a valid increment.
+      allow create: if isValidStats(request.resource.data);
+      allow update: if isValidStats(request.resource.data) && 
+                      request.resource.data.visitCount == resource.data.visitCount + 1;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
   Wrench, 
@@ -30,8 +30,11 @@ import {
   Menu,
   X,
   Maximize,
-  Minimize
+  Minimize,
+  Users
 } from 'lucide-react';
+import { db } from './firebase';
+import { doc, getDoc, setDoc, updateDoc, onSnapshot, increment } from 'firebase/firestore';
 
 const services = [
   {
@@ -120,6 +123,40 @@ export default function App() {
   const [showButton, setShowButton] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showFullscreenPrompt, setShowFullscreenPrompt] = useState(false);
+  const [visitCount, setVisitCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    const statsRef = doc(db, 'stats', 'global');
+
+    // Increment visit count on load
+    const incrementVisits = async () => {
+      try {
+        const docSnap = await getDoc(statsRef);
+        if (docSnap.exists()) {
+          await updateDoc(statsRef, {
+            visitCount: increment(1)
+          });
+        } else {
+          await setDoc(statsRef, {
+            visitCount: 1
+          });
+        }
+      } catch (error) {
+        console.error("Error updating visit count:", error);
+      }
+    };
+
+    incrementVisits();
+
+    // Listen for real-time updates
+    const unsubscribe = onSnapshot(statsRef, (doc) => {
+      if (doc.exists()) {
+        setVisitCount(doc.data().visitCount);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -403,22 +440,31 @@ export default function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-center lg:justify-start gap-8"
+                  className="mt-12 pt-8 border-t border-white/10 flex flex-wrap xl:flex-nowrap items-center justify-center lg:justify-start gap-4 sm:gap-6"
                 >
                   <div>
                     <p className="text-3xl font-display font-bold text-white mb-1">+5</p>
-                    <p className="text-sm text-slate-400 font-medium">Años de Experiencia</p>
+                    <p className="text-sm text-slate-400 font-medium whitespace-nowrap">Años de Experiencia</p>
                   </div>
                   <div className="w-px h-10 bg-white/10 hidden sm:block" />
                   <div>
                     <p className="text-3xl font-display font-bold text-white mb-1">+50</p>
-                    <p className="text-sm text-slate-400 font-medium">Proyectos Exitosos</p>
+                    <p className="text-sm text-slate-400 font-medium whitespace-nowrap">Proyectos Exitosos</p>
                   </div>
                   <div className="w-px h-10 bg-white/10 hidden sm:block" />
                   <div>
                     <p className="text-3xl font-display font-bold text-white mb-1">100%</p>
-                    <p className="text-sm text-slate-400 font-medium">Compromiso</p>
+                    <p className="text-sm text-slate-400 font-medium whitespace-nowrap">Compromiso</p>
                   </div>
+                  {visitCount !== null && (
+                    <>
+                      <div className="w-px h-10 bg-white/10 hidden sm:block" />
+                      <div>
+                        <p className="text-3xl font-display font-bold text-white mb-1">{visitCount.toLocaleString()}</p>
+                        <p className="text-sm text-slate-400 font-medium whitespace-nowrap">Visita N°</p>
+                      </div>
+                    </>
+                  )}
                 </motion.div>
               </div>
 
