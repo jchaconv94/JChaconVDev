@@ -27,28 +27,28 @@ import {
 const services = [
   {
     title: "Soporte Técnico Informático",
-    desc: "Mantenimiento, instalación y solución de problemas en PC, laptops, impresoras y software.",
+    desc: "Mantenimiento, instalación y solución de problemas en computadoras, laptops, impresoras y software, garantizando su correcto funcionamiento.",
     icon: Wrench,
     color: "text-blue-400",
     bg: "bg-blue-400/10"
   },
   {
     title: "Desarrollo de Software a Medida",
-    desc: "Creación de sistemas y aplicaciones adaptados a las necesidades de cada negocio.",
+    desc: "Diseño y desarrollo de sistemas y aplicaciones adaptados a las necesidades específicas de cada negocio para mejorar la productividad.",
     icon: Code2,
     color: "text-emerald-400",
     bg: "bg-emerald-400/10"
   },
   {
     title: "Automatización y Soluciones Digitales",
-    desc: "Implementación de herramientas digitales y automatización de procesos para optimizar la gestión del negocio.",
+    desc: "Implementación de herramientas digitales y automatización de procesos para optimizar la gestión empresarial y mejorar la eficiencia operativa.",
     icon: Cpu,
     color: "text-purple-400",
     bg: "bg-purple-400/10"
   },
   {
-    title: "Consultoría y Seguridad",
-    desc: "Asesoría para optimizar e implementar soluciones tecnológicas y proteger la información.",
+    title: "Consultoría Tecnológica y Seguridad Informática",
+    desc: "Asesoría para optimizar e implementar soluciones tecnológicas, aplicando buenas prácticas de seguridad de la información.",
     icon: ShieldCheck,
     color: "text-rose-400",
     bg: "bg-rose-400/10"
@@ -117,7 +117,7 @@ export default function App() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
                   </span>
-                  Disponible para nuevos proyectos
+                  Disponible para nuevos proyectos tecnológicos
                 </motion.div>
                 
                 <motion.h1 
@@ -138,7 +138,7 @@ export default function App() {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
                 >
-                  Transformo ideas en software robusto, optimizo procesos empresariales y aseguro la infraestructura tecnológica de tu negocio.
+                  Desarrollo software a medida, automatizo procesos empresariales y optimizo la infraestructura tecnológica para impulsar la eficiencia y el crecimiento de tu negocio.
                 </motion.p>
                 
                 <motion.div 
@@ -148,10 +148,10 @@ export default function App() {
                   className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
                 >
                   <a href="#servicios" className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-medium hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
-                    Ver Servicios <ChevronRight className="w-4 h-4" />
+                    Explorar Servicios <ChevronRight className="w-4 h-4" />
                   </a>
                   <a href="#contacto" className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
-                    Contactar Ahora
+                    Solicitar Asesoría
                   </a>
                 </motion.div>
               </div>
@@ -372,7 +372,7 @@ function initSystem() {
           <div className="max-w-7xl mx-auto">
             <div className="mb-16 md:text-center">
               <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">Áreas de Especialidad</h2>
-              <p className="text-slate-400 max-w-2xl mx-auto">Soluciones integrales diseñadas para escalar y proteger tu infraestructura digital.</p>
+              <p className="text-slate-400 max-w-2xl mx-auto">Servicios especializados en desarrollo de software, automatización de procesos y gestión de soluciones tecnológicas.</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
