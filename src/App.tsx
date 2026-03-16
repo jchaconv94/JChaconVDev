@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Wrench, 
   Code2, 
@@ -25,7 +25,9 @@ import {
   Layers,
   MessageSquare,
   Linkedin,
-  Youtube
+  Youtube,
+  Menu,
+  X
 } from 'lucide-react';
 
 const services = [
@@ -89,6 +91,8 @@ const technologies = [
 ];
 
 export default function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-brand-500/30 font-sans relative overflow-x-hidden">
       {/* Background Effects */}
@@ -128,7 +132,61 @@ export default function App() {
           <a href="#contacto" className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-blue-600 rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] border border-white/10 group">
             Hablemos <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
           </a>
+          
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-slate-300 hover:text-white transition-colors"
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden bg-[#020617]/95 backdrop-blur-xl border-b border-white/10 overflow-hidden"
+            >
+              <div className="px-6 py-4 flex flex-col gap-4">
+                <a 
+                  href="#servicios" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-300"
+                >
+                  <Layers className="w-5 h-5 text-brand-400" />
+                  Servicios
+                </a>
+                <a 
+                  href="#tecnologias" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-300"
+                >
+                  <Cpu className="w-5 h-5 text-blue-400" />
+                  Tecnologías
+                </a>
+                <a 
+                  href="#contacto" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-base font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-300"
+                >
+                  <MessageSquare className="w-5 h-5 text-purple-400" />
+                  Contacto
+                </a>
+                <a 
+                  href="#contacto" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-center w-full px-6 py-3 mt-2 text-base font-medium text-white bg-gradient-to-r from-brand-500 to-blue-600 rounded-xl shadow-[0_0_20px_rgba(56,189,248,0.3)]"
+                >
+                  Hablemos
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       <main className="relative z-10">
@@ -659,18 +717,18 @@ function initSystem() {
                 className="group relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-brand-500/30 transition-all duration-500 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 rounded-2xl bg-brand-500/10 text-brand-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-brand-500/20 shadow-[0_0_30px_rgba(56,189,248,0.1)]">
-                      <Phone className="w-6 h-6" />
+                <div className="relative z-10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-brand-500/10 text-brand-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-brand-500/20 shadow-[0_0_30px_rgba(56,189,248,0.1)]">
+                      <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-400 font-medium mb-1">Llamada Directa</p>
-                      <p className="text-xl font-display font-semibold text-white group-hover:text-brand-300 transition-colors">956 606 972</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-400 font-medium mb-1">Llamada Directa</p>
+                      <p className="text-lg sm:text-xl font-display font-semibold text-white group-hover:text-brand-300 transition-colors truncate">956 606 972</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
-                    <ChevronRight className="w-5 h-5 text-brand-400" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-brand-400" />
                   </div>
                 </div>
               </motion.a>
@@ -685,18 +743,18 @@ function initSystem() {
                 className="group relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-blue-500/30 transition-all duration-500 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)]">
-                      <Mail className="w-6 h-6" />
+                <div className="relative z-10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-blue-500/10 text-blue-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-blue-500/20 shadow-[0_0_30px_rgba(59,130,246,0.1)]">
+                      <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-400 font-medium mb-1">Correo Electrónico</p>
-                      <p className="text-lg sm:text-xl font-display font-semibold text-white group-hover:text-blue-300 transition-colors truncate max-w-[200px] sm:max-w-none">jchaconvillacis@gmail.com</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-400 font-medium mb-1">Correo Electrónico</p>
+                      <p className="text-base sm:text-xl font-display font-semibold text-white group-hover:text-blue-300 transition-colors truncate">jchaconvillacis@gmail.com</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
-                    <ChevronRight className="w-5 h-5 text-blue-400" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                   </div>
                 </div>
               </motion.a>
@@ -713,18 +771,18 @@ function initSystem() {
                 className="group relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-pink-500/30 transition-all duration-500 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 rounded-2xl bg-pink-500/10 text-pink-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-pink-500/20 shadow-[0_0_30px_rgba(236,72,153,0.1)]">
-                      <Smartphone className="w-6 h-6" />
+                <div className="relative z-10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-pink-500/10 text-pink-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-pink-500/20 shadow-[0_0_30px_rgba(236,72,153,0.1)]">
+                      <Smartphone className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-400 font-medium mb-1">TikTok</p>
-                      <p className="text-xl font-display font-semibold text-white group-hover:text-pink-300 transition-colors">@jordanduk</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-400 font-medium mb-1">TikTok</p>
+                      <p className="text-lg sm:text-xl font-display font-semibold text-white group-hover:text-pink-300 transition-colors truncate">@jordanduk</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
-                    <ChevronRight className="w-5 h-5 text-pink-400" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-pink-400" />
                   </div>
                 </div>
               </motion.a>
@@ -741,18 +799,18 @@ function initSystem() {
                 className="group relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-indigo-500/30 transition-all duration-500 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-indigo-500/20 shadow-[0_0_30px_rgba(99,102,241,0.1)]">
-                      <Facebook className="w-6 h-6" />
+                <div className="relative z-10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-indigo-500/20 shadow-[0_0_30px_rgba(99,102,241,0.1)]">
+                      <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-400 font-medium mb-1">Facebook</p>
-                      <p className="text-xl font-display font-semibold text-white group-hover:text-indigo-300 transition-colors">owoweb</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-400 font-medium mb-1">Facebook</p>
+                      <p className="text-lg sm:text-xl font-display font-semibold text-white group-hover:text-indigo-300 transition-colors truncate">owoweb</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
-                    <ChevronRight className="w-5 h-5 text-indigo-400" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
                   </div>
                 </div>
               </motion.a>
@@ -769,18 +827,18 @@ function initSystem() {
                 className="group relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-sky-500/30 transition-all duration-500 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-sky-500/20 shadow-[0_0_30px_rgba(14,165,233,0.1)]">
-                      <Linkedin className="w-6 h-6" />
+                <div className="relative z-10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 border border-sky-500/20 shadow-[0_0_30px_rgba(14,165,233,0.1)]">
+                      <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-400 font-medium mb-1">LinkedIn</p>
-                      <p className="text-xl font-display font-semibold text-white group-hover:text-sky-300 transition-colors">Jordan Chacón</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-400 font-medium mb-1">LinkedIn</p>
+                      <p className="text-lg sm:text-xl font-display font-semibold text-white group-hover:text-sky-300 transition-colors truncate">Jordan Chacón</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
-                    <ChevronRight className="w-5 h-5 text-sky-400" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-sky-400" />
                   </div>
                 </div>
               </motion.a>
@@ -797,18 +855,18 @@ function initSystem() {
                 className="group relative p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] hover:border-red-500/30 transition-all duration-500 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative z-10 flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div className="w-14 h-14 rounded-2xl bg-red-500/10 text-red-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
-                      <Youtube className="w-6 h-6" />
+                <div className="relative z-10 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-4 sm:gap-6 min-w-0">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-2xl bg-red-500/10 text-red-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-red-500/20 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
+                      <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-400 font-medium mb-1">YouTube</p>
-                      <p className="text-xl font-display font-semibold text-white group-hover:text-red-300 transition-colors">@Jchaconvillacis</p>
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-slate-400 font-medium mb-1">YouTube</p>
+                      <p className="text-lg sm:text-xl font-display font-semibold text-white group-hover:text-red-300 transition-colors truncate">@Jchaconvillacis</p>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
-                    <ChevronRight className="w-5 h-5 text-red-400" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 border border-white/10 translate-x-4 group-hover:translate-x-0">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" />
                   </div>
                 </div>
               </motion.a>
