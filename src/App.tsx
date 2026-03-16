@@ -124,10 +124,10 @@ export default function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-white mb-6 leading-tight"
+                  className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6 leading-tight"
                 >
                   Ingeniero de Sistemas <br className="hidden md:block" />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-600">
+                  <span className="text-3xl md:text-4xl lg:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-600">
                     Soluciones Tecnológicas
                   </span>
                 </motion.h1>
