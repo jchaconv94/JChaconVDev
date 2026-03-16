@@ -28,7 +28,9 @@ import {
   Linkedin,
   Youtube,
   Menu,
-  X
+  X,
+  Maximize,
+  Minimize
 } from 'lucide-react';
 
 const services = [
@@ -94,6 +96,7 @@ const technologies = [
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -102,6 +105,26 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => {
+        console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-brand-500/30 font-sans relative overflow-x-hidden">
@@ -139,17 +162,36 @@ export default function App() {
               <span>Contacto</span>
             </a>
           </div>
-          <a href="#contacto" className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-blue-600 rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] border border-white/10 group">
-            Hablemos <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-          </a>
+          <div className="hidden md:flex items-center gap-4">
+            <button 
+              onClick={toggleFullScreen}
+              className="p-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-full transition-colors"
+              aria-label="Toggle Fullscreen"
+              title="Pantalla Completa"
+            >
+              {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+            </button>
+            <a href="#contacto" className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-brand-500 to-blue-600 rounded-full hover:scale-105 transition-all duration-300 shadow-[0_0_20px_rgba(56,189,248,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] border border-white/10 group">
+              Hablemos <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
           
           {/* Mobile Menu Toggle */}
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-slate-300 hover:text-white transition-colors"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-2">
+            <button 
+              onClick={toggleFullScreen}
+              className="p-2 text-slate-300 hover:text-white transition-colors"
+              aria-label="Toggle Fullscreen"
+            >
+              {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+            </button>
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-slate-300 hover:text-white transition-colors"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
