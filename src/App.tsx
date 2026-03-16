@@ -459,8 +459,21 @@ export default function App() {
                   {visitCount !== null && (
                     <>
                       <div className="w-px h-10 bg-white/10 hidden sm:block" />
-                      <div>
-                        <p className="text-3xl font-display font-bold text-white mb-1">{visitCount.toLocaleString()}</p>
+                      <div className="flex flex-col">
+                        <div className="overflow-hidden h-[36px] mb-1 relative">
+                          <AnimatePresence mode="popLayout">
+                            <motion.div
+                              key={visitCount}
+                              initial={{ y: 36 }}
+                              animate={{ y: 0 }}
+                              exit={{ y: -36 }}
+                              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                              className="text-3xl font-display font-bold text-white leading-9"
+                            >
+                              {visitCount.toLocaleString()}
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
                         <p className="text-sm text-slate-400 font-medium whitespace-nowrap">Visita N°</p>
                       </div>
                     </>
