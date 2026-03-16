@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { 
   Wrench, 
   Code2, 
@@ -24,6 +24,7 @@ import {
   HardDrive,
   Layers,
   MessageSquare,
+  ArrowUp,
   Linkedin,
   Youtube,
   Menu,
@@ -92,6 +93,15 @@ const technologies = [
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowButton(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-200 selection:bg-brand-500/30 font-sans relative overflow-x-hidden">
@@ -191,7 +201,7 @@ export default function App() {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="pt-32 pb-20 px-6">
+        <section className="pt-20 pb-12 md:pt-32 md:pb-20 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="text-center lg:text-left order-2 lg:order-1 relative z-10">
@@ -212,10 +222,10 @@ export default function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6 leading-[1.1]"
+                  className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-white mb-6 leading-[1.1]"
                 >
                   Ingeniero de Sistemas <br className="hidden md:block" />
-                  <span className="text-3xl md:text-4xl lg:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-blue-500 to-purple-500 drop-shadow-sm mt-2 inline-block">
+                  <span className="text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-blue-500 to-purple-500 drop-shadow-sm mt-2 inline-block">
                     Soluciones Tecnológicas
                   </span>
                 </motion.h1>
@@ -481,7 +491,7 @@ function initSystem() {
         </section>
 
         {/* Services Section - Premium Design */}
-        <section id="servicios" className="py-32 px-6 relative">
+        <section id="servicios" className="py-16 md:py-32 px-6 relative">
           {/* Background decoration for the section */}
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
             <div className="absolute top-[20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-brand-500/5 blur-[120px]" />
@@ -614,7 +624,7 @@ function initSystem() {
             </motion.p>
             
             {/* Floating Tech Elements */}
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:flex md:flex-wrap md:justify-center gap-4 md:gap-6 max-w-5xl mx-auto">
               {technologies.map((tech, index) => {
                 // Generate pseudo-random floating animation values based on index
                 const randomY = [0, -10 - (index % 3) * 5, 0];
@@ -633,7 +643,7 @@ function initSystem() {
                       type: "spring",
                       stiffness: 100
                     }}
-                    className="relative group"
+                    className="relative group w-full md:w-auto"
                   >
                     <motion.div
                       animate={{ y: randomY }}
@@ -643,18 +653,18 @@ function initSystem() {
                         ease: "easeInOut",
                         delay: randomDelay
                       }}
-                      className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-md hover:bg-white/[0.06] hover:border-brand-500/30 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:-translate-y-1"
+                      className="flex items-center gap-3 px-4 py-3 md:px-6 md:py-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] backdrop-blur-md hover:bg-white/[0.06] hover:border-brand-500/30 transition-all duration-300 cursor-default shadow-lg hover:shadow-[0_0_30px_rgba(56,189,248,0.15)] group-hover:-translate-y-1 w-full md:w-auto"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 border border-white/5 relative overflow-hidden">
+                      <div className="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 border border-white/5 relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         <img 
                           src={tech.logo} 
                           alt={`${tech.name} logo`} 
-                          className="w-6 h-6 object-contain relative z-10 drop-shadow-md group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] transition-all" 
+                          className="w-5 h-5 md:w-6 md:h-6 object-contain relative z-10 drop-shadow-md group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] transition-all" 
                           referrerPolicy="no-referrer"
                         />
                       </div>
-                      <span className="font-display font-semibold text-slate-300 group-hover:text-white transition-colors text-lg tracking-wide">{tech.name}</span>
+                      <span className="font-display font-semibold text-slate-300 group-hover:text-white transition-colors text-sm md:text-lg tracking-wide truncate">{tech.name}</span>
                     </motion.div>
                   </motion.div>
                 );
@@ -874,6 +884,17 @@ function initSystem() {
           </div>
         </section>
       </main>
+
+      {/* Floating Scroll to Top Button */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0 }}
+        animate={showButton ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+        className="fixed bottom-6 right-6 z-[100] p-4 rounded-full bg-brand-500 text-white shadow-xl hover:scale-110 transition-transform"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Volver arriba"
+      >
+        <ArrowUp className="w-6 h-6" />
+      </motion.button>
 
       {/* Footer */}
       <footer className="relative border-t border-white/10 bg-[#020617] pt-16 pb-8 overflow-hidden">
