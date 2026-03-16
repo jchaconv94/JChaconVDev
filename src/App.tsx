@@ -123,7 +123,7 @@ export default function App() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-400 to-blue-600 flex items-center justify-center text-white shadow-[0_0_15px_rgba(56,189,248,0.4)] group-hover:shadow-[0_0_25px_rgba(56,189,248,0.6)] transition-all duration-300">
               JC
             </div>
-            <span className="text-white group-hover:text-brand-300 transition-colors duration-300">Jordan Chacón</span>
+            <span className="text-white group-hover:text-brand-300 transition-colors duration-300">Jordan Chacón Villacís</span>
           </div>
           <div className="hidden md:flex items-center gap-4">
             <a href="#servicios" className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-300 group">
@@ -222,10 +222,10 @@ export default function App() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="text-5xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight text-white mb-6 leading-[1.1]"
+                  className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight text-white mb-6 leading-[1.1]"
                 >
                   Ingeniero de Sistemas <br className="hidden md:block" />
-                  <span className="text-4xl md:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-blue-500 to-purple-500 drop-shadow-sm mt-2 inline-block">
+                  <span className="text-3xl md:text-4xl lg:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-blue-500 to-purple-500 drop-shadow-sm mt-2 inline-block">
                     Soluciones Tecnológicas
                   </span>
                 </motion.h1>
