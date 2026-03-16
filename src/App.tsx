@@ -97,13 +97,32 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showButton, setShowButton] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const autoFullscreenAttempted = React.useRef(false);
 
   React.useEffect(() => {
+    const attemptFullscreen = () => {
+      if (!autoFullscreenAttempted.current && !document.fullscreenElement) {
+        autoFullscreenAttempted.current = true;
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log(`Auto-fullscreen failed: ${err.message}`);
+        });
+      }
+    };
+
     const handleScroll = () => {
       setShowButton(window.scrollY > 100);
+      if (window.scrollY > 50) {
+        attemptFullscreen();
+      }
     };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('touchstart', attemptFullscreen, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchstart', attemptFullscreen);
+    };
   }, []);
 
   React.useEffect(() => {
@@ -325,7 +344,7 @@ export default function App() {
                 initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
                 animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.7, delay: 0.2 }}
-                className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] order-1 lg:order-2 mb-16 lg:mb-0 flex items-center justify-center"
+                className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[380px] order-1 lg:order-2 mt-12 lg:mt-0 mb-16 lg:mb-0 flex items-center justify-center"
               >
                 {/* Floating Tech Icons */}
                 <motion.div 
